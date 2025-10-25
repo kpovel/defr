@@ -17,6 +17,17 @@ defmodule Defr do
     end
   end
 
+  defmacro defrp(name, opts) do
+    quote do
+      defp unquote(name) do
+        [do: result] = unquote(opts)
+        result
+      catch
+        {:return, value} -> value
+      end
+    end
+  end
+
   def return(value) do
     throw({:return, value})
   end
